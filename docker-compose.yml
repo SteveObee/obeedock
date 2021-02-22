@@ -1,0 +1,62 @@
+version: '3.9'
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: e9w86036f78sd9
+    volumes:
+      - "./database:/var/lib/mysql"
+    ports:
+      - 3306:3306
+    networks:
+      - backend
+  db_pma:
+    image: phpmyadmin/phpmyadmin:latest
+    depends_on:
+      - db
+    ports:
+      - 8082:80
+    environment:
+      MYSQL_ROOT_PASSWORD: e9w86036f78sd9
+      PMA_USER: root
+      PMA_PASSWORD: e9w86036f78sd9
+    networks:
+      - backend
+  mail:
+    image: mailhog/mailhog:latest
+    ports:
+      - 8081:8025
+    networks:
+      - backend
+  wspace:
+    build:
+      context: ./wspace
+    tty: true
+    depends_on:
+      - db
+      - mail
+    volumes:
+      - "../:/var/www"
+      - work_home:/home/obeedock
+    networks:
+      - backend
+  php-apache:
+    build:
+      context: ./apache
+    depends_on:
+      - wspace
+    volumes:
+      - "../:/var/www"
+      - ./apache/sites/:/etc/apache2/sites-available
+    ports:
+      - 80:80
+    networks:
+      - backend
+volumes:
+  work_home:
