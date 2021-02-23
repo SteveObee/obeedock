@@ -38,6 +38,22 @@ Tmux is installed as standard and to activate the included plugins you'll need t
 session then hit `prefix` + <kbd>I</kbd> and after hitting <kbd>Esc</kbd> the plugins should work. I have
 included restore and continuum but feel free to add more.
 
+### Apache
+
+Projects can be viewed on a local browser by copying one of the example .conf files in the apache/sites/ folder and editing it
+to your needs. Change the DocumentRoot to the folder your project normally serves its index file from (usually called public),
+then edit the ServerName and ServerAlias lines respectively. Afterward configure your local machine to point towards
+the ServerName. On linux thats the /etc/hosts file.
+
+### Database
+
+The database is MySQl using the mysql:latest image and data is synced to the local ./database folder using a volume. PhpMyAdmin
+is provided and mapped to localhost on port 8082 with the user logged on as root automatically.
+
+### Mail
+
+Mailhog, mail server is provided and accessible on localhost:8081.
+
 ## Usage
 
 I created the IDE with the idea that I can work within it and run all language commands natively so
