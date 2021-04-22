@@ -8,7 +8,7 @@ RUN groupadd -g 1000 obeedock && \
     usermod -p "*" obeedock -s /bin/bash 
 
 # Install base software
-RUN pacman -Syu --noconfirm git neovim ripgrep xclip tmux openssh zip unzip
+RUN pacman -Syu --noconfirm archlinux-keyring git neovim ripgrep xclip tmux openssh zip unzip make gcc
 
 # Set Timezone
 RUN ln -snf /usr/share/zoneinfo/UTC /etc/localtime && echo UTC > /etc/timezone
@@ -22,6 +22,9 @@ RUN pacman -S --noconfirm php && \
 # Install composer
 RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
+ 
+# Python 2 
+RUN pacman -S --noconfirm python2
     
 # Python 3
 RUN pacman -S --noconfirm python python-pip && \

@@ -1,0 +1,8 @@
+#!/bin/bash
+xterm -T "Obeedock IDE" -e "cd ~/Projects/obeedock && \
+          docker-compose exec --user=obeedock wspace tmux -2"
+
+#!/bin/bash
+xterm -T "Obeedock IDE" -e "cd ~/Projects/obeedock && \
+          docker-compose exec --user=obeedock wspace tmux -2"
+

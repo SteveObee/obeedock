@@ -46,17 +46,34 @@ services:
       - work_home:/home/obeedock
     networks:
       - backend
-  php-apache:
+    ports:
+      - 3000:3000
+      - 3001:3001  
+  nginx:
     build:
-      context: ./apache
-    depends_on:
-      - wspace
+      context: ./nginx
     volumes:
       - "../:/var/www"
-      - ./apache/sites/:/etc/apache2/sites-available
+      - "./nginx/sites:/etc/nginx/sites-available"
+      - "./nginx/ssl:/etc/nginx/ssl"
     ports:
-      - 80:80
+      - "80:80"
+      - "443:443" 
+    depends_on:
+      - php-fpm
     networks:
-      - backend
+      - backend  
+  php-fpm:
+    build:
+      context: ./php-fpm
+    volumes:
+      - ./php-fpm/php8.0.ini:/usr/local/etc/php.ini
+      - "../:/var/www"
+    expose:
+      - "9000"
+    depends_on:
+      - wspace
+    networks:
+      - backend    
 volumes:
   work_home:
